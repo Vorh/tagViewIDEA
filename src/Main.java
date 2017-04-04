@@ -23,7 +23,7 @@ public class Main {
     public static void main(String[] args) {
         Git git = null;
         try {
-            git = Git.open(new java.io.File("../docx-service/"));
+            git = Git.open(new java.io.File("../ofd-lk/"));
         } catch (IOException e1) {
             e1.printStackTrace();
         }
