@@ -1,11 +1,9 @@
 package ru.vorh;
 
-import com.intellij.openapi.actionSystem.AnAction;
-import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.Presentation;
-import com.intellij.openapi.actionSystem.ShortcutSet;
+import com.intellij.notification.Notification;
+import com.intellij.notification.NotificationType;
+import com.intellij.openapi.actionSystem.*;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.ui.Messages;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -47,7 +45,9 @@ public class TagAction extends AnAction {
             tags.append(" ");
         });
 
-        Messages.showWarningDialog(tags.toString(), "Last Tags");
+//        Messages.showWarningDialog(tags.toString(), "Last Tags");
+        Notification  notification = new Notification(IdeActions.GROUP_EDITOR_POPUP, "Last tags",tags.toString(), NotificationType.INFORMATION);
+        notification.notify(project);
     }
 
     @Override

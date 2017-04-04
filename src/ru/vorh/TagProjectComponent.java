@@ -1,13 +1,15 @@
 package ru.vorh;
 
-import com.intellij.openapi.actionSystem.*;
+import com.intellij.openapi.actionSystem.ActionManager;
+import com.intellij.openapi.actionSystem.CustomShortcutSet;
+import com.intellij.openapi.actionSystem.DefaultActionGroup;
+import com.intellij.openapi.actionSystem.KeyboardShortcut;
 import com.intellij.openapi.components.ProjectComponent;
 import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
-import java.util.Arrays;
 
 /**
  * Created by yaroslav on 3/31/17.
@@ -33,13 +35,7 @@ public class TagProjectComponent implements ProjectComponent {
 
         DefaultActionGroup actionGroup = (DefaultActionGroup) actionManager.getAction("VcsGroups");
         actionGroup.add(tagAction);
-        AnAction[] childActionsOrStubs = actionGroup.getChildActionsOrStubs();
-        System.out.println(tagAction.getTemplatePresentation().getText());
 
-        for (AnAction anAction : Arrays.asList(childActionsOrStubs)) {
-            System.out.println(anAction.toString());
-            System.out.println("");
-        }
         actionManager.registerAction("TagAction",tagAction);
 
         // TODO: insert component initialization logic here
