@@ -1,15 +1,10 @@
 package ru.vorh;
 
 import com.intellij.openapi.actionSystem.ActionManager;
-import com.intellij.openapi.actionSystem.CustomShortcutSet;
 import com.intellij.openapi.actionSystem.DefaultActionGroup;
-import com.intellij.openapi.actionSystem.KeyboardShortcut;
 import com.intellij.openapi.components.ProjectComponent;
 import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.NotNull;
-
-import javax.swing.*;
-import java.awt.event.KeyEvent;
 
 /**
  * Created by yaroslav on 3/31/17.
@@ -29,16 +24,11 @@ public class TagProjectComponent implements ProjectComponent {
         ActionManager actionManager = ActionManager.getInstance();
         TagAction tagAction = new TagAction(project);
 
-        KeyboardShortcut keyboardShortcut = new KeyboardShortcut(KeyStroke.getKeyStroke(KeyEvent.CTRL_MASK,1),KeyStroke.getKeyStroke("]"));
-        CustomShortcutSet customShortcutSet = new CustomShortcutSet(keyboardShortcut);
-        tagAction.setShortcutSet(customShortcutSet);
-
         DefaultActionGroup actionGroup = (DefaultActionGroup) actionManager.getAction("VcsGroups");
         actionGroup.add(tagAction);
 
         actionManager.registerAction("TagAction",tagAction);
 
-        // TODO: insert component initialization logic here
         System.out.println("FINISH SETTING COMPONENT");
     }
 
