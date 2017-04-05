@@ -1,4 +1,4 @@
-package ru.vorh;
+package ru.vorh.services;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.LogCommand;
@@ -60,6 +60,13 @@ public class GitServiceBasic implements GitService {
         return tags;
     }
 
+    @Override
+    public Set<Ref> getTagCommit(RevCommit commit) {
+        return getTagCommit(git.getRepository(),commit);
+    }
+
+
+
     @Nullable
     @Override
     public RevCommit getLastCommit(Repository repository) {
@@ -91,4 +98,16 @@ public class GitServiceBasic implements GitService {
         }
         return null;
     }
+
+
+    @Override
+    public RevCommit getLastCommit() {
+        return getLastCommit(git.getRepository());
+    }
+
+    @Override
+    public Git getGit() {
+        return git;
+    }
+
 }

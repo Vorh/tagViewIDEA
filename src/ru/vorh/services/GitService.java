@@ -1,5 +1,6 @@
-package ru.vorh;
+package ru.vorh.services;
 
+import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -14,4 +15,10 @@ public interface GitService {
     Set<Ref> getTagCommit(Repository repository, RevCommit commit);
 
     RevCommit getLastCommit(Repository repository);
+
+    Set<Ref> getTagCommit(RevCommit commit);
+
+    RevCommit getLastCommit();
+
+    Git getGit();
 }
