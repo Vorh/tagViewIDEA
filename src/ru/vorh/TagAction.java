@@ -4,12 +4,10 @@ import com.intellij.notification.Notification;
 import com.intellij.notification.NotificationType;
 import com.intellij.openapi.actionSystem.*;
 import com.intellij.openapi.project.Project;
-import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.RevCommit;
+import ru.vorh.services.GitService;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.Set;
 
 /**
@@ -19,26 +17,23 @@ public class TagAction extends AnAction {
 
     private ModalTag modalTag;
     private GitService gitService;
-    private Git git;
     private Project project;
 
-    public TagAction(Project project) {
+    public TagAction(Project project ,GitService gitService) {
+        this.project = project;
+        this.gitService = gitService;
+
         Presentation templatePresentation = getTemplatePresentation();
-        templatePresentation.setText("Last tags");
+        templatePresentation.setText("Get last tags");
         templatePresentation.setDescription("Extract last tags");
-        try {
-            git = Git.open(new File(project.getBasePath()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        gitService = new GitServiceBasic(git);
+
     }
 
     @Override
     public void actionPerformed(AnActionEvent e) {
 
-        RevCommit lastCommit = gitService.getLastCommit(git.getRepository());
-        Set<Ref> tagCommit = gitService.getTagCommit(git.getRepository(), lastCommit);
+        RevCommit lastCommit = gitService.getLastCommit();
+        Set<Ref> tagCommit = gitService.getTagCommit(lastCommit);
         StringBuilder tags = new StringBuilder();
         tagCommit.forEach(ref -> {
             tags.append(ref.getName().replace("refs/tags/",""));
