@@ -31,12 +31,18 @@ public class TagProjectComponent implements ProjectComponent {
         gitService = createGitService();
         ActionManager actionManager = ActionManager.getInstance();
 
+
+
+
         TagAction tagAction = new TagAction(project,gitService);
+        DialogTagAction dialogTagAction = new DialogTagAction();
 
         DefaultActionGroup actionGroup = (DefaultActionGroup) actionManager.getAction("VcsGroups");
         actionGroup.add(tagAction);
+        actionGroup.add(dialogTagAction);
 
         actionManager.registerAction("TagAction",tagAction);
+        actionManager.registerAction("DialogTagAction",dialogTagAction);
 
         System.out.println("FINISH SETTING COMPONENT");
     }
