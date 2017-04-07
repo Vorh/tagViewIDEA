@@ -31,7 +31,7 @@ public class TagAction extends AnAction {
 
     @Override
     public void actionPerformed(AnActionEvent e) {
-
+        gitService.getGit().fetch();
         RevCommit lastCommit = gitService.getLastCommit();
         Set<Ref> tagCommit = gitService.getTagCommit(lastCommit);
         StringBuilder tags = new StringBuilder();
