@@ -8,7 +8,7 @@ import java.awt.*;
  */
 public class SwingUtil {
 
-    private static GridBagConstraints gbc;
+    private static GridBagConstraints gbc = new GridBagConstraints();
 
 
     public static void addComponent(JPanel panel, JComponent comp
@@ -23,6 +23,13 @@ public class SwingUtil {
         gbc.weightx = weightx;
         gbc.weighty = weighty;
         panel.add(comp, gbc);
+    }
+
+    public static void listFonts(){
+        String fonts[] = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+        for (String font : fonts) {
+            System.out.println(font);
+        }
     }
 
 }
