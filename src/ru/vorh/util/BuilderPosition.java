@@ -22,6 +22,7 @@ public class BuilderPosition {
     private int ipadX;
     private int ipadY;
     private Insets insets;
+    private int anchor;
 
 
     public BuilderPosition(JPanel jPanel, JComponent jComponent) {
@@ -33,6 +34,7 @@ public class BuilderPosition {
         weightY = 0.0;
         ipadY = 0;
         ipadX = 0;
+        anchor = GridBagConstraints.CENTER;
     }
 
 
@@ -64,6 +66,11 @@ public class BuilderPosition {
         return this;
     }
 
+    public BuilderPosition addAnchor(int anchor){
+        this.anchor = anchor;
+        return this;
+    }
+
 
     public BuilderPosition addInsert(Insets insets){
         this.insets = insets;
@@ -80,6 +87,7 @@ public class BuilderPosition {
         gbc.weighty = weightY;
         gbc.ipadx = ipadX;
         gbc.ipady = ipadY;
+        gbc.anchor = anchor;
         if (insets != null){
             gbc.insets = insets;
         }
