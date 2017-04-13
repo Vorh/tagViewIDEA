@@ -1,4 +1,4 @@
-package ru.vorh;
+package ru.vorh.tagDialog;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
@@ -24,6 +24,9 @@ public class DialogTagAction extends AnAction{
         dialogTag.setTags(gitService.getTagCommit(gitService.getLastCommit()));
         dialogTag.setSize(400,400);
         dialogTag.setTitle("Create New Tag");
+        dialogTag.setDialogListenerOk(tag -> {
+                gitService.addTag(tag);
+        });
         dialogTag.show();
     }
 }

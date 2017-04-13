@@ -8,6 +8,7 @@ import org.eclipse.jgit.api.Git;
 import org.jetbrains.annotations.NotNull;
 import ru.vorh.services.GitService;
 import ru.vorh.services.GitServiceBasic;
+import ru.vorh.tagDialog.DialogTagAction;
 
 import java.io.File;
 import java.io.IOException;

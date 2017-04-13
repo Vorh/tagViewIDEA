@@ -1,4 +1,4 @@
-package ru.vorh;
+package ru.vorh.tagDialog;
 
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.DialogWrapper;
@@ -6,6 +6,7 @@ import com.intellij.ui.components.JBLabel;
 import com.intellij.ui.components.JBPanel;
 import com.intellij.util.ui.JBUI;
 import org.eclipse.jgit.lib.Ref;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.vorh.util.BuilderPosition;
 import ru.vorh.util.TagUtil;
@@ -13,6 +14,7 @@ import ru.vorh.util.TagUtil;
 import javax.swing.*;
 import javax.swing.text.MaskFormatter;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.text.ParseException;
 import java.util.List;
 import java.util.Set;
@@ -24,9 +26,13 @@ public class DialogTag extends DialogWrapper{
 
     private JBPanel root;
     private Set<Ref> tags;
+    private JFormattedTextField inputTag;
+    private DialogListenerOk dialogListenerOk;
 
     public DialogTag(@Nullable Project project, boolean canBeParent) {
         super(project, canBeParent);
+
+        Action okAction = getOKAction();
     }
 
 
@@ -52,7 +58,7 @@ public class DialogTag extends DialogWrapper{
         JBLabel labelTags = new JBLabel(tagCaption.toString());
         labelTags.setFont(font);
 
-        JFormattedTextField inputTag = new JFormattedTextField();
+        inputTag = new JFormattedTextField();
         try {
             MaskFormatter maskTag = new MaskFormatter("v#.##.#.#");
             maskTag.install(inputTag);
@@ -76,7 +82,7 @@ public class DialogTag extends DialogWrapper{
                 .addAnchor(GridBagConstraints.FIRST_LINE_START)
                 .addWeight(1,0.5)
                 .build();
-        new BuilderPosition(root,inputTag)
+        new BuilderPosition(root, inputTag)
                 .addXY(0,1)
                 .addWeight(  1,1)
                 .addSize(2,0)
@@ -90,6 +96,31 @@ public class DialogTag extends DialogWrapper{
 
     public void setTags(Set<Ref> tags) {
         this.tags = tags;
+    }
+
+    @Nullable
+    @Override
+    public JComponent getPreferredFocusedComponent() {
+        return inputTag;
+    }
+
+    @NotNull
+    @Override
+    protected Action[] createActions() {
+        Action action = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+
+                dialogListenerOk.ok(String.valueOf(inputTag.getText()));
+                close(1);
+            }
+        };
+        action.putValue(Action.NAME,"OK");
+        return new Action[]{action, getCancelAction(),getHelpAction() };
+    }
+
+    public void setDialogListenerOk(DialogListenerOk dialogListenerOk) {
+        this.dialogListenerOk = dialogListenerOk;
     }
 
     @Override
