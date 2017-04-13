@@ -8,7 +8,7 @@ import java.awt.*;
  */
 public class BuilderPosition {
 
-    private static GridBagConstraints gbc = new GridBagConstraints();
+    private GridBagConstraints gbc = new GridBagConstraints();
 
     private JPanel jPanel;
     private JComponent jComponent;
@@ -17,14 +17,22 @@ public class BuilderPosition {
     private int widthX;
     private int heightY;
     private int fill;
-    private int weightX;
-    private int weightY;
+    private double weightX;
+    private double weightY;
+    private int ipadX;
+    private int ipadY;
     private Insets insets;
 
 
     public BuilderPosition(JPanel jPanel, JComponent jComponent) {
         this.jPanel = jPanel;
         this.jComponent = jComponent;
+        widthX  = 1;
+        heightY = 1;
+        weightY = 0.0;
+        weightY = 0.0;
+        ipadY = 0;
+        ipadX = 0;
     }
 
 
@@ -34,9 +42,14 @@ public class BuilderPosition {
         return this;
     }
 
-    public BuilderPosition addSize(int x, int y){
+    public BuilderPosition addWeight(double x, double y){
         weightX = x;
         weightY = y;
+        return this;
+    }
+    public BuilderPosition addSize(int x, int y){
+        widthX = x;
+        heightY = y;
         return this;
     }
 
@@ -44,6 +57,13 @@ public class BuilderPosition {
         this.fill = fill;
         return this;
     }
+
+    public BuilderPosition addIpad(int x, int y){
+        ipadX = x;
+        ipadY = y;
+        return this;
+    }
+
 
     public BuilderPosition addInsert(Insets insets){
         this.insets = insets;
@@ -58,6 +78,11 @@ public class BuilderPosition {
         gbc.fill = fill;
         gbc.weightx = weightX;
         gbc.weighty = weightY;
+        gbc.ipadx = ipadX;
+        gbc.ipady = ipadY;
+        if (insets != null){
+            gbc.insets = insets;
+        }
 
         jPanel.add(jComponent,gbc);
     }
