@@ -32,10 +32,8 @@ public class TagProjectComponent implements ProjectComponent {
         ActionManager actionManager = ActionManager.getInstance();
 
 
-
-
         TagAction tagAction = new TagAction(project,gitService);
-        DialogTagAction dialogTagAction = new DialogTagAction();
+        DialogTagAction dialogTagAction = new DialogTagAction(gitService);
 
         DefaultActionGroup actionGroup = (DefaultActionGroup) actionManager.getAction("VcsGroups");
         actionGroup.add(tagAction);
