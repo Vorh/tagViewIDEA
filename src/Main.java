@@ -1,3 +1,6 @@
+import com.intellij.ui.components.JBLabel;
+import com.intellij.ui.components.JBPanel;
+import com.intellij.util.ui.JBUI;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.LogCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -9,8 +12,13 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevWalk;
+import ru.vorh.util.BuilderPosition;
 
+import javax.swing.*;
+import javax.swing.text.MaskFormatter;
+import java.awt.*;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -21,6 +29,52 @@ import java.util.Set;
 public class Main {
 
     public static void main(String[] args) {
+        JFrame jFrame = new JFrame("TEst");
+        jFrame.setSize(250,120);
+        jFrame.setLocationRelativeTo(null);
+
+        JBPanel root = new JBPanel<>(new GridBagLayout());
+
+
+        JBLabel labelLastTags = new JBLabel("Last tag: v1.23.4.1");
+        Font font = new Font("Monospaced",Font.PLAIN,14);
+        labelLastTags.setFont(font);
+
+
+        JFormattedTextField inputTag = new JFormattedTextField();
+        try {
+            MaskFormatter maskTag = new MaskFormatter("v#.##.#.#");
+            maskTag.install(inputTag);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+//        root.add(inputTag);
+        Insets insetsLabel = JBUI.insets(0,20,-20,0);
+        Insets insetsInput = JBUI.insets(0,20,0,20);
+
+        new BuilderPosition(root,labelLastTags)
+                .addXY(0,0)
+//                .addSize(0,0)
+                .addFill(GridBagConstraints.HORIZONTAL)
+                .addAnchor(GridBagConstraints.FIRST_LINE_START)
+                .addWeight(1,0.5)
+                .addInsert(insetsLabel)
+                .build();
+
+        new BuilderPosition(root,inputTag)
+                .addXY(0,1)
+//                .addSize(0,2)
+                .addWeight(1,1)
+                .addFill(GridBagConstraints.HORIZONTAL)
+                .addAnchor(GridBagConstraints.FIRST_LINE_START)
+                .addInsert(insetsInput)
+                .build();
+        jFrame.add(root);
+        jFrame.setVisible(true);
+    }
+
+    private static void getLastTag() {
         Git git = null;
         try {
             git = Git.open(new java.io.File("../ofd-lk/"));
