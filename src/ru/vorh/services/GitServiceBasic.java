@@ -110,4 +110,13 @@ public class GitServiceBasic implements GitService {
         return git;
     }
 
+    @Override
+    public void addTag(String tag) {
+        try {
+            git.tag().setName(tag).call();
+        } catch (GitAPIException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

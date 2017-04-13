@@ -21,4 +21,6 @@ public interface GitService {
     RevCommit getLastCommit();
 
     Git getGit();
+
+    void addTag(String tag);
 }
