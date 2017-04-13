@@ -8,11 +8,13 @@ import com.intellij.util.ui.JBUI;
 import org.eclipse.jgit.lib.Ref;
 import org.jetbrains.annotations.Nullable;
 import ru.vorh.util.BuilderPosition;
+import ru.vorh.util.TagUtil;
 
 import javax.swing.*;
 import javax.swing.text.MaskFormatter;
 import java.awt.*;
 import java.text.ParseException;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -28,11 +30,11 @@ public class DialogTag extends DialogWrapper{
     }
 
 
-
     @Nullable
     @Override
     protected JComponent createCenterPanel() {
         JBPanel root = new JBPanel<>(new GridBagLayout());
+        root.setPreferredSize(new Dimension(200,70));
 
         JBLabel labelTag = new JBLabel("Last tag:");
         Font font = new Font("Monospaced",Font.PLAIN,14);
@@ -40,8 +42,9 @@ public class DialogTag extends DialogWrapper{
 
         StringBuilder tagCaption = new StringBuilder();
         if (tags != null && tags.size() != 0) {
-            tags.forEach(ref -> {
-                tagCaption.append(" " + ref.getName());
+            List<String> list = TagUtil.cutNameTag(tags);
+            list.forEach(tag -> {
+                tagCaption.append(" " + tag);
             });
         }
 
@@ -60,7 +63,7 @@ public class DialogTag extends DialogWrapper{
         Insets insetsLabel = JBUI.insets(0,20,-20,0);
         Insets insetsInput = JBUI.insets(0,20,0,20);
 
-        new BuilderPosition(root,labelTags)
+        new BuilderPosition(root,labelTag)
                 .addXY(0,0)
                 .addFill(GridBagConstraints.HORIZONTAL)
                 .addAnchor(GridBagConstraints.FIRST_LINE_START)
@@ -68,14 +71,15 @@ public class DialogTag extends DialogWrapper{
                 .addInsert(insetsLabel)
                 .build();
         new BuilderPosition(root,labelTags)
-                .addXY(0,1)
+                .addXY( 1,0)
                 .addFill(GridBagConstraints.HORIZONTAL)
                 .addAnchor(GridBagConstraints.FIRST_LINE_START)
                 .addWeight(1,0.5)
                 .build();
         new BuilderPosition(root,inputTag)
                 .addXY(0,1)
-                .addWeight(1,1)
+                .addWeight(  1,1)
+                .addSize(2,0)
                 .addFill(GridBagConstraints.HORIZONTAL)
                 .addAnchor(GridBagConstraints.FIRST_LINE_START)
                 .addInsert(insetsInput)

@@ -29,20 +29,24 @@ public class TagProjectComponent implements ProjectComponent {
         System.out.println("CREATE COMPONENT ");
 
         gitService = createGitService();
-        ActionManager actionManager = ActionManager.getInstance();
+        if (gitService != null) {
+            ActionManager actionManager = ActionManager.getInstance();
 
 
-        TagAction tagAction = new TagAction(project,gitService);
-        DialogTagAction dialogTagAction = new DialogTagAction(gitService);
+            TagAction tagAction = new TagAction(project, gitService);
+            DialogTagAction dialogTagAction = new DialogTagAction(gitService);
 
-        DefaultActionGroup actionGroup = (DefaultActionGroup) actionManager.getAction("VcsGroups");
-        actionGroup.add(tagAction);
-        actionGroup.add(dialogTagAction);
+            DefaultActionGroup actionGroup = (DefaultActionGroup) actionManager.getAction("VcsGroups");
+            actionGroup.add(tagAction);
+            actionGroup.add(dialogTagAction);
 
-        actionManager.registerAction("TagAction",tagAction);
-        actionManager.registerAction("DialogTagAction",dialogTagAction);
+            actionManager.registerAction("TagAction", tagAction);
+            actionManager.registerAction("DialogTagAction", dialogTagAction);
 
-        System.out.println("FINISH SETTING COMPONENT");
+            System.out.println("FINISH SETTING COMPONENT");
+        }else {
+            System.out.println("GIT NOT FOUND");
+        }
     }
 
     private GitService createGitService() {
