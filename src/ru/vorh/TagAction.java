@@ -15,7 +15,6 @@ import java.util.Set;
  */
 public class TagAction extends AnAction {
 
-    private ModalTag modalTag;
     private GitService gitService;
     private Project project;
 
